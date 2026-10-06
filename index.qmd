@@ -1,0 +1,7 @@
+---
+title: "385website"
+---
+
+I liked this website <https://realworlddatascience.net/> because it could be used like a personal blog or family updates website.
+
+[Real World Data Science] (https://realworlddatascience.net/)

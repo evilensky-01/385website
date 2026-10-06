@@ -1,0 +1,33 @@
+project:
+  type: website
+
+website:
+  title: "Example Website"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - index.qmd
+      - about.qmd
+      - section: "Assignments"
+        contents:
+          - ae04-survey-types.qmd
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+    right:
+      - icon: github
+        href: https://github.com/evilensky-01/
+
+format:
+  html:
+    theme:
+      - slate
+      - brand
+    css: styles.css
+    toc: true
+
+
+
