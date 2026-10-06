@@ -1,0 +1,84 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "385website",
+    "section": "",
+    "text": "I liked this website https://realworlddatascience.net/ because it could be used like a personal blog or family updates website.\n[Real World Data Science] (https://realworlddatascience.net/)",
+    "crumbs": [
+      "Home",
+      "385website"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I have two cats. I am also crazy and decide to do school until I die.",
+    "crumbs": [
+      "Home",
+      "About"
+    ]
+  },
+  {
+    "objectID": "ae04-survey-types.html",
+    "href": "ae04-survey-types.html",
+    "title": "AE04 - Getting to Know Your Data Types",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(googlesheets4)",
+    "crumbs": [
+      "Home",
+      "Assignments",
+      "AE04 - Getting to Know Your Data Types"
+    ]
+  },
+  {
+    "objectID": "ae04-survey-types.html#setup",
+    "href": "ae04-survey-types.html#setup",
+    "title": "AE04 - Getting to Know Your Data Types",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(googlesheets4)",
+    "crumbs": [
+      "Home",
+      "Assignments",
+      "AE04 - Getting to Know Your Data Types"
+    ]
+  },
+  {
+    "objectID": "ae04-survey-types.html#step-1-import",
+    "href": "ae04-survey-types.html#step-1-import",
+    "title": "AE04 - Getting to Know Your Data Types",
+    "section": "Step 1: Import",
+    "text": "Step 1: Import\n\nraw &lt;- read_sheet(\"https://docs.google.com/spreadsheets/d/1e8XSidxeT3SIE10g1jiEuALRa7REpmYU64_3V3TNKKs/edit?usp=sharing\") %&gt;%\n  rename(\n    timestamp       = Timestamp,\n    zipcode         = `What is the zipcode of your hometown?`,\n    stats_before    = `Have you taken any statistics courses before?`,\n    prog_experience = `How much experience do you have with programming?`,\n    languages       = `If you've programmed before, which languages have you used, and how comfortable do you feel with each? If you haven't programmed before, please leave this question blank.`,\n    data_interest   = `What types of data interest you?`,\n    learn_best      = `How do you learn best?`,\n    commute_min     = `How long does it take you to commute from home to this classroom, in minutes? Please enter a number only.`\n  )",
+    "crumbs": [
+      "Home",
+      "Assignments",
+      "AE04 - Getting to Know Your Data Types"
+    ]
+  },
+  {
+    "objectID": "ae04-survey-types.html#step-2-data-type-audit",
+    "href": "ae04-survey-types.html#step-2-data-type-audit",
+    "title": "AE04 - Getting to Know Your Data Types",
+    "section": "Step 2: Data type audit",
+    "text": "Step 2: Data type audit\n\n“How long does it take you to commute from home to this classroom, in minutes? Please enter a number only.”\n\nclass(raw$commute_min)\n\n[1] \"list\"\n\n\nIs that what you’d expect, given the question?\nNo, I expected dbl or at least chr.\n\nmean(raw$commute_min)\n\n[1] NA\n\n\nWhat’s going on? unlist() this variable and look at the unique() values.\n\nunlist(raw$commute_min)\n\n [1] \"10\"      \"7\"       \"10\"      \"10\"      \"15\"      \"21\"      \"35\"     \n [8] \"25\"      \"15\"      \"30\"      \"15\"      \"70\"      \"15\"      \"20\"     \n[15] \"10\"      \"70\"      \"10\"      \"20\"      \"15\"      \"15\"      \"35\"     \n[22] \"16\"      \"10\"      \"22\"      \"forever\" \"15\"      \"30\"      \"30\"     \n[29] \"35\"     \n\n\nThere is a non-numeric answer to the prompt.\n\n\n“How much experience do you have with programming?”\n\nclass(raw$prog_experience)\n\n[1] \"character\"\n\ntable(raw$prog_experience)\n\n\nA lot — I use programming regularly and feel confident writing code \n                                                                 11 \n                                                               None \n                                                                  1 \n       Some — I’ve worked on a few projects or used it occasionally \n                                                                 18 \n\n\nIs this variable ordinal? Does everything you’d expect to see actually show up?\nIt’s not coded as ordinal, it’s alphabetical, and the “a little” response is not present in the table since there were 0 of that response.\n\n\nSkim the rest\n\nglimpse(raw)\n\nRows: 30\nColumns: 8\n$ timestamp       &lt;dttm&gt; 2026-08-24 15:32:06, 2026-08-24 15:32:19, 2026-08-24 …\n$ zipcode         &lt;dbl&gt; 95618, 95129, 95932, 94526, 95973, 94550, 96080, 94510…\n$ stats_before    &lt;chr&gt; \"Yes, I have taken another college course on statistic…\n$ prog_experience &lt;chr&gt; \"A lot — I use programming regularly and feel confiden…\n$ languages       &lt;chr&gt; \"C/C++ (very comfortable), Python (somewhat comfortabl…\n$ data_interest   &lt;chr&gt; \"- Crime, - Economics, - Environment/Climate, - Politi…\n$ learn_best      &lt;chr&gt; \"Engaging lectures\", \"In person classes and lectures\",…\n$ commute_min     &lt;list&gt; 10, 7, 10, 10, 15, 21, 35, 25, 15, &lt;NULL&gt;, 30, 15, 70…\n\n\nFor each of the other variables — is R’s type what you’d expect, given the question that was asked? We won’t work with them further in this AE, but you should still be able to answer this for each one.\nZipcode does not need to be numeric for our purposes.",
+    "crumbs": [
+      "Home",
+      "Assignments",
+      "AE04 - Getting to Know Your Data Types"
+    ]
+  },
+  {
+    "objectID": "ae04-survey-types.html#step-3-apply-fixes",
+    "href": "ae04-survey-types.html#step-3-apply-fixes",
+    "title": "AE04 - Getting to Know Your Data Types",
+    "section": "Step 3: Apply fixes",
+    "text": "Step 3: Apply fixes\n\nCommute time\nWhile we could try to coerce list → character → numeric, it’s easier here to specify data types on read.\n\nraw &lt;- read_sheet(\"https://docs.google.com/spreadsheets/d/1e8XSidxeT3SIE10g1jiEuALRa7REpmYU64_3V3TNKKs/edit?usp=sharing\", col_types = c(\"Dccccccn\")) %&gt;%\n  rename(\n    timestamp       = Timestamp,\n    zipcode         = `What is the zipcode of your hometown?`,\n    stats_before    = `Have you taken any statistics courses before?`,\n    prog_experience = `How much experience do you have with programming?`,\n    languages       = `If you've programmed before, which languages have you used, and how comfortable do you feel with each? If you haven't programmed before, please leave this question blank.`,\n    data_interest   = `What types of data interest you?`,\n    learn_best      = `How do you learn best?`,\n    commute_min     = `How long does it take you to commute from home to this classroom, in minutes? Please enter a number only.`\n  )\n\nAlways keep an eye out for this, and ask yourself whether it’s expected, given what you found in Step 2.\n\ntable(raw$commute_min)\n\n\n 7 10 15 16 20 21 22 25 30 35 70 \n 1  6  7  1  2  1  1  1  3  3  2 \n\n\n\n\nRecode & reorder prog_experience\n\nFirst, confirm what’s actually in the data.\n\n\ntable(raw$prog_experience)\n\n\nA lot — I use programming regularly and feel confident writing code \n                                                                 11 \n                                                               None \n                                                                  1 \n       Some — I’ve worked on a few projects or used it occasionally \n                                                                 18 \n\n\n\nThen compare against the published survey. Is everything you’d expect to see actually there?\n\n\nThere is a missing answer, a little.\n\n\nConvert the variable to a factor with the current recorded levels.\n\n\nraw$prog_experience &lt;- factor(\n  x = raw$prog_experience,\n  levels = c(\"None\", \n             \"Some — I’ve worked on a few projects or used it occasionally\",\n             \"A lot — I use programming regularly and feel confident writing code\"),\n  labels = c(\"None\", \"Some\", \"A lot\"),\n  ordered = TRUE\n)\n\n\nNow that it’s reading as a factor, use fct_expand() to add any level that’s missing.\n\n\nraw$prog_experience &lt;- raw$prog_experience %&gt;%\n  fct_expand(\"A little\", after = 2)\nlevels(raw$prog_experience)\n\n[1] \"None\"     \"Some\"     \"A little\" \"A lot\"   \n\n\n\nLast, respect the ordinal nature of this variable by putting the levels in increasing order.\n\n\n# add code here\n\nCompleted in steps 3 and 4.",
+    "crumbs": [
+      "Home",
+      "Assignments",
+      "AE04 - Getting to Know Your Data Types"
+    ]
+  }
+]
